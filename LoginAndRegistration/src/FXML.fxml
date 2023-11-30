@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXMLController">
+   <children>
+      <ImageView fitHeight="562.0" fitWidth="882.0">
+         <image>
+            <Image url="@image/Firefly%20A%20website%20background%20full%20of%20cars%2036764.jpg" />
+         </image>
+      </ImageView>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <left>
+            <AnchorPane prefHeight="560.0" prefWidth="440.0" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <AnchorPane prefHeight="200.0" prefWidth="440.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" layoutX="157.0" layoutY="126.0" text="Sign Up" textFill="#fcff30">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <Label layoutY="220.0" text="Employee Name" textFill="#fcff30">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="employeeName" layoutX="157.0" layoutY="221.0" prefHeight="25.0" prefWidth="267.0" promptText="Employee Name" />
+                  <PasswordField fx:id="password" layoutX="157.0" layoutY="255.0" prefHeight="25.0" prefWidth="266.0" promptText="Password (Mixture of alphabets and numbers)" />
+                  <Label layoutX="-2.0" layoutY="257.0" text="Password (8 characters)" textFill="#fcff30">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <PasswordField fx:id="password2" layoutX="157.0" layoutY="292.0" prefHeight="25.0" prefWidth="266.0" promptText="Re-Enter Password" />
+                  <Label layoutX="1.0" layoutY="291.0" text="Re-Enter Password" textFill="#fcff30">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="SignUpButton" layoutX="173.0" layoutY="375.0" mnemonicParsing="false" onAction="#userSignUp" prefHeight="34.0" prefWidth="110.0" text="Sign Up" />
+                  <Button fx:id="ClearButton" layoutX="173.0" layoutY="332.0" mnemonicParsing="false" onAction="#userClear" prefHeight="34.0" prefWidth="109.0" text="Clear" />
+                  <Label layoutX="95.0" layoutY="454.0" text="Already Have an Account?" textFill="#fcff30">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="LoginButton" layoutX="173.0" layoutY="496.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="109.0" text="Login" />
+                  <Label fx:id="wrongSignUp" layoutX="44.0" layoutY="179.0" textFill="#f51200">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="correctSignUp" layoutX="30.0" layoutY="418.0" textFill="#04ff00">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </right>
+      </BorderPane>
+   </children>
+</StackPane>
