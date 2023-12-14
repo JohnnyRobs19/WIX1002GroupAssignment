@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="viewinfo.MANAGEMENTFXMLController">
+   <children>
+      <HBox layoutX="14.0" layoutY="14.0" prefHeight="372.0" prefWidth="573.0">
+         <children>
+            <Label text="GREETINGS MR">
+               <font>
+                  <Font size="42.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="536.0" layoutY="345.0" prefHeight="62.0" prefWidth="110.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#managementBackButtonPushed" text="Back" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutY="105.0" prefHeight="177.0" prefWidth="646.0" spacing="50.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#managementCustomerPushed" text="CUSTOMER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#managementSalesPushed" text="SALES">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#managementVehiclePushed" text="VEHICLES">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#managementEmployeePushed" text="EMPLOYEE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

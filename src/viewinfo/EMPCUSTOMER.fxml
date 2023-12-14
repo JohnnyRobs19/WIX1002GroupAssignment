@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="viewinfo.EMPCUSTOMERController">
+   <children>
+      <HBox layoutX="14.0" layoutY="14.0" prefHeight="100.0" prefWidth="335.0">
+         <children>
+            <Label text="YOUR CUSTOMER">
+               <font>
+                  <Font size="39.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="564.0" layoutY="372.0" prefHeight="56.0" prefWidth="98.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#empCustomerBackButtonPushed" text="Back" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
