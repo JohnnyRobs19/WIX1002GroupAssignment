@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package viewinfo;
 
 import com.opencsv.CSVReader;
@@ -33,9 +29,9 @@ import javafx.stage.Stage;
  *
  * @author HP
  */
-public class VEHICLESController implements Initializable {
+public class VEHICLEVIEWController implements Initializable {
     @FXML
-    private TableView<vehicles> vehicleTableView;
+    private TableView<vehicles> vehicleDetailedView;
 
     @FXML
     private TableColumn<vehicles, String> carPlate;
@@ -45,44 +41,49 @@ public class VEHICLESController implements Initializable {
 
     @FXML
     private TableColumn<vehicles, String> acquiredPrice;
-
     @FXML
     private TableColumn<vehicles, String> carStatus;
 
     @FXML
     private TableColumn<vehicles, String> salesPrice;
-    
 
+    @FXML
+    private Button backButton;
 
-    
-    public void vehiclesBackButtonPushed(ActionEvent event) throws IOException
-    {
-        Parent mainViewParent = FXMLLoader.load(getClass().getResource("MANAGEMENTFXML.fxml"));
+    private String selectedCarPlate; // Remove static
+
+    public void setCarPlate(String carPlate) {
+        this.selectedCarPlate = carPlate;
+        
+
+        // Load data when the employee ID is set
+        loadData();
+    }
+
+    public void backButtonPushed(ActionEvent event) throws IOException {
+        Parent mainViewParent = FXMLLoader.load(getClass().getResource("SALES.fxml"));
         Scene mainViewScene = new Scene(mainViewParent);
-        
-        //This line gets the Stage information
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        
+
+        // This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
         window.setScene(mainViewScene);
         window.show();
     }
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         carPlate.setCellValueFactory(new PropertyValueFactory<vehicles,String>("carPlate"));
         carModel.setCellValueFactory(new PropertyValueFactory<vehicles,String>("carModel"));
         acquiredPrice.setCellValueFactory(new PropertyValueFactory<vehicles,String>("acquiredPrice"));
         carStatus.setCellValueFactory(new PropertyValueFactory<vehicles,String>("carStatus"));
         salesPrice.setCellValueFactory(new PropertyValueFactory<vehicles,String>("salesPrice"));
-         try {
-            loadCSVData();
-        } catch (CsvException ex) {
-            Logger.getLogger(VEHICLESController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    } private void loadCSVData() throws CsvException {
+    }
+
+    private void loadData() {
         // Specify your CSV file path
         String csvFilePath = "C:\\Users\\HP\\Documents\\WIIX1002GROUPRAGA\\VIEWINFO\\src\\vehicle.csv";
 
@@ -103,7 +104,7 @@ public class VEHICLESController implements Initializable {
                 // Create an instance of Customer and populate its properties
                 vehicles vehiclesData = new vehicles();
 
-                // Assuming the order of columns is customerId, customerName, phoneNumber, postCode
+                // Assuming the order of columns is carPlate, carModel, acquiredPrice, carStatus, salesPrice
                 vehiclesData.setCarPlate(row[0]);
                 vehiclesData.setCarModel(row[1]);
                 vehiclesData.setAcquiredPrice(row[2]);
@@ -111,18 +112,14 @@ public class VEHICLESController implements Initializable {
                 vehiclesData.setSalesPrice(row[4]);
                 // Add the populated data to the ObservableList
                 data.add(vehiclesData);
-              
             }
 
-            // Set the data to the TableView
-            vehicleTableView.setItems(data);
+            ObservableList<vehicles> filteredData = data.filtered(vehicles -> vehicles.getCarPlate().equals(selectedCarPlate));
+
+            // Set the filtered data to the TableView
+            vehicleDetailedView.setItems(filteredData);
         } catch (IOException | CsvException e) {
             e.printStackTrace();
-            // Handle exceptions (e.g., file not found, CSV parsing errors)
         }
     }
-
-    
-    }    
-    
-
+}

@@ -1,0 +1,34 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 16 Dec 2023, 2:04:02 am
+    Author     : HP
+*/
+
+{
+    dark-primary-color: #7B1FA2;
+    default-primary-color: #9C27B0; 
+    text-primary-color: #FFFFFF; 
+    light-primary-color: #E1BEE7; 
+    accent-color: #7C4DFF; 
+    primary-text-color: #212121; 
+    secondary-text-color: #757575;
+    divider-color: #BDBDBD; 
+}
+.root {
+    -fx-background-color: default-primary-color;
+}
+.button {
+    -fx-font: 30px "Arial";
+    -fx-text-fill: primary-text-color;
+    -fx-padding: 5;
+    -fx-background-color: accent-color;
+    -fx-effect: dropshadow(one-pass-box, black, 14, 0.0 , 6, 0);
+    -fx-background-radius: 8;
+}.label {
+    -fx-font: 40px "Arial";
+    -fx-text-fill: text-primary-color;
+    
+}

@@ -11,7 +11,7 @@
    <children>
       <VBox layoutX="15.0" layoutY="21.0" prefHeight="356.0" prefWidth="569.0">
          <children>
-            <Label prefHeight="55.0" prefWidth="379.0" text="GOOD MORNING YO">
+            <Label prefHeight="55.0" prefWidth="558.0" text="GOOD MORNING YO ">
                <font>
                   <Font size="38.0" />
                </font>
