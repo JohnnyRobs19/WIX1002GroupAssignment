@@ -17,7 +17,6 @@
             </TableView>
          </children>
       </HBox>
-      <Button fx:id="empDashboard" layoutX="334.0" layoutY="388.0" mnemonicParsing="false" onAction="#empDashboardPushed" text="Go To Dashboard" />
       <Button layoutX="682.0" layoutY="540.0" mnemonicParsing="false" onAction="#empBackPushed" text="Back" />
    </children>
 </AnchorPane>

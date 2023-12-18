@@ -13,12 +13,22 @@ public class customer {
     private String customerName;
     private String phoneNumber;
     private String postCode;
+    private String employeeId;
 
     // Default constructor (if needed)
     public customer() {
         // Default constructor implementation, if needed
     }
+    
 
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+   
     // Constructor with four arguments
     public customer(String customerId, String customerName, String phoneNumber, String postCode) {
         this.customerId = customerId;
@@ -71,4 +81,6 @@ public class customer {
                 ", postCode='" + postCode + '\'' +
                 '}';
     }
+
+    
 }

@@ -26,6 +26,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -41,18 +42,18 @@ public class LOGINTEMPController implements Initializable {
     @FXML
     private TableColumn<employee, String> employeeId;
 
-    @FXML
-    private Button empDashboard;
+    
+    
     
     public void empDashboardPushed(ActionEvent event) throws IOException
     {
          FXMLLoader loader= new FXMLLoader();
-        loader.setLocation(getClass().getResource("EMPSALES.fxml"));
+        loader.setLocation(getClass().getResource("SALESFXML.fxml"));
         Parent tableViewParent = loader.load();
         Scene tableViewScene = new Scene(tableViewParent);
         
         
-        EMPSALESController controller = loader.getController();
+        SALESFXMLController controller = loader.getController();
         
         //This line gets the Stage information
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -61,10 +62,36 @@ public class LOGINTEMPController implements Initializable {
         window.show();
 
     }
-     public void userClickedOnTable(){
-  
-  this.empDashboard.setDisable(false);  
-  }
+  public void userClickedOnTable(MouseEvent event) throws IOException {
+    // Get the selected item from the table
+    employee selectedEmployee = employeeIdPick.getSelectionModel().getSelectedItem();
+
+    // Check if an employee is selected
+    if (selectedEmployee != null) {
+        // Get the selected employee's ID
+        String selectedEmployeeId = selectedEmployee.getEmployeeID();
+
+        // Debugging line
+
+        // Pass the selected employee's ID to EMPSALESController
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("SALESFXML.fxml"));
+        Parent tableViewParent = loader.load();
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        SALESFXMLController controller = loader.getController();
+        controller.setEmployeeId(selectedEmployeeId);
+
+        // This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        window.setScene(tableViewScene);
+        window.show();
+    }
+}
+
+
+
 public void empBackPushed(ActionEvent event) throws IOException
     {
         Parent SALESFXML = FXMLLoader.load(getClass().getResource("/viewinfo/MAINVIEW.fxml"));
@@ -83,7 +110,7 @@ public void empBackPushed(ActionEvent event) throws IOException
     @Override
     public void initialize(URL url, ResourceBundle rb) {
          employeeId.setCellValueFactory(new PropertyValueFactory<employee,String>("employeeID"));
-       this.empDashboard.setDisable(true);
+      
         try {
             loadCSVData();
         } catch (CsvException ex) {

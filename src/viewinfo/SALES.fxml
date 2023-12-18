@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
@@ -24,9 +25,9 @@
             <Button mnemonicParsing="false" onAction="#salesBackButtonPushed" prefHeight="42.0" prefWidth="82.0" text="Back" />
          </children>
       </HBox>
-      <HBox layoutX="16.0" layoutY="88.0" prefHeight="398.0" prefWidth="779.0">
+      <HBox layoutX="7.0" layoutY="133.0" prefHeight="353.0" prefWidth="788.0">
          <children>
-            <TableView fx:id="salesTableView" prefHeight="398.0" prefWidth="789.0">
+            <TableView fx:id="salesTableView" onMouseClicked="#userClickedOnTable" prefHeight="354.0" prefWidth="779.0">
               <columns>
                 <TableColumn fx:id="salesId" prefWidth="126.0" text="SALES ID" />
                 <TableColumn fx:id="dateAndTime" prefWidth="211.0" text="DATE AND TIME" />
@@ -37,5 +38,28 @@
             </TableView>
          </children>
       </HBox>
+      <TextField fx:id="filterField" layoutX="100.0" layoutY="85.0" prefHeight="31.0" prefWidth="139.0" />
+      <TextField fx:id="minPriceField" layoutX="346.0" layoutY="85.0" prefHeight="31.0" prefWidth="100.0" />
+      <Button fx:id="searchButton" layoutX="693.0" layoutY="85.0" mnemonicParsing="false" onAction="#searchButtonPushed" text="SEARCH">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Label layoutX="20.0" layoutY="83.0" prefHeight="31.0" prefWidth="93.0" text="SEARCH:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="257.0" layoutY="82.0" prefHeight="31.0" prefWidth="93.0" text="MIN PRICE">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="464.0" layoutY="81.0" prefHeight="31.0" prefWidth="100.0" text="MAX PRICE">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="maxPriceField" layoutX="553.0" layoutY="83.0" prefHeight="31.0" prefWidth="100.0" />
    </children>
 </AnchorPane>

@@ -1,18 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package viewinfo;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,13 +16,25 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author HP
- */
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+
 public class EMPSALESController implements Initializable {
-       @FXML
+
+    @FXML
     private TableView<sales> empSalesTable;
 
     @FXML
@@ -48,71 +49,207 @@ public class EMPSALESController implements Initializable {
     @FXML
     private TableColumn<sales, String> customerId;
 
-    
-    public void empSalesBackButtonPushed(ActionEvent event) throws IOException
-    {
+    @FXML
+    private TextField salesIdFilterField;
+
+    @FXML
+    private DatePicker dateAndTimeDatePicker;
+
+    @FXML
+    private TextField carPlateFilterField;
+
+    @FXML
+    private TextField customerIdFilterField;
+private static FilteredList<sales> filteredData;
+    private static  ObservableList<sales> dataList = FXCollections.observableArrayList();
+    private static String selectedEmployeeId;
+
+    public void setEmployeeId(String employeeId) {
+        this.selectedEmployeeId = employeeId;
+        loadCSVData(); // Load data when the employee ID is set
+    }
+
+
+    public void empSalesBackButtonPushed(ActionEvent event) throws IOException {
         Parent mainViewParent = FXMLLoader.load(getClass().getResource("SALESFXML.fxml"));
         Scene mainViewScene = new Scene(mainViewParent);
-        
-        //This line gets the Stage information
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        
+
+        // This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
         window.setScene(mainViewScene);
         window.show();
     }
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-         salesId.setCellValueFactory(new PropertyValueFactory<sales,String>("salesId"));
-       dateAndTime.setCellValueFactory(new PropertyValueFactory<sales,String>("dateAndTime"));
-        carPlate.setCellValueFactory(new PropertyValueFactory<sales,String>("carPlate"));
-        customerId.setCellValueFactory(new PropertyValueFactory<sales,String>("customerId"));
+        salesId.setCellValueFactory(new PropertyValueFactory<>("salesId"));
+        dateAndTime.setCellValueFactory(new PropertyValueFactory<>("dateAndTime"));
+        carPlate.setCellValueFactory(new PropertyValueFactory<>("carPlate"));
+        customerId.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+  filteredData = new FilteredList<>(dataList, b -> true);
+        
+    }
+
+    private void setupSearchFunctionality() {
+        // Set up filter fields for each variable
        
-        try {
-            loadCSVData();
-        } catch (CsvException ex) {
-            Logger.getLogger(SALESController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }   private void loadCSVData() throws CsvException {
-        // Specify your CSV file path
-        String csvFilePath = "C:\\Users\\HP\\Documents\\WIIX1002GROUPRAGA\\VIEWINFO\\src\\sales.csv";
 
-        try (CSVReader csvReader = new CSVReader(new FileReader(csvFilePath))) {
-            // Read all records at once
-            List<String[]> allData = csvReader.readAll();
+        salesIdFilterField.textProperty().addListener((observable, oldValue, newValue) ->
+                filteredData.setPredicate(sale -> filterBySalesId(sale, newValue)));
 
-            // Assume the first row contains column headers
-            String[] headers = allData.get(0);
+        dateAndTimeDatePicker.valueProperty().addListener((observable, oldValue, newValue) ->
+                filteredData.setPredicate(sale -> filterByDateAndTime(sale, newValue)));
 
-            // Create ObservableList for TableView
-            ObservableList<sales> data = FXCollections.observableArrayList();
+        carPlateFilterField.textProperty().addListener((observable, oldValue, newValue) ->
+                filteredData.setPredicate(sale -> filterByCarPlate(sale, newValue)));
 
-            // Start from index 1 to skip headers
-            for (int i = 1; i < allData.size(); i++) {
-                String[] row = allData.get(i);
+        customerIdFilterField.textProperty().addListener((observable, oldValue, newValue) ->
+                filteredData.setPredicate(sale -> filterByCustomerId(sale, newValue)));
 
-                // Create an instance of Customer and populate its properties
+        // Wrap the FilteredList in a SortedList.
+        SortedList<sales> sortedData = new SortedList<>(filteredData);
+
+        // Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(empSalesTable.comparatorProperty());
+
+        // Add sorted (and filtered) data to the table.
+        empSalesTable.setItems(sortedData);
+    }
+@FXML
+private void searchButtonPushed(ActionEvent event) {
+    // Get the values from the filter fields
+    String salesIdFilter = salesIdFilterField.getText().toLowerCase();
+    LocalDate dateFilter = dateAndTimeDatePicker.getValue();
+    String carPlateFilter = carPlateFilterField.getText().toLowerCase();
+    String customerIdFilter = customerIdFilterField.getText().toLowerCase();
+
+    // Create a new FilteredList based on the existing empSalesTable items
+    FilteredList<sales> filteredData = new FilteredList<>(empSalesTable.getItems());
+
+    // Apply the filters only to the data that belongs to the selected employee
+    filteredData.setPredicate(sale ->
+            filterBySalesId(sale, salesIdFilter) &&
+            filterByDateAndTime(sale, dateFilter) &&
+            filterByCarPlate(sale, carPlateFilter) &&
+            filterByCustomerId(sale, customerIdFilter));
+
+    // Wrap the filtered data in a SortedList
+    SortedList<sales> sortedData = new SortedList<>(filteredData);
+
+    // Bind the SortedList comparator to the TableView comparator
+    sortedData.comparatorProperty().bind(empSalesTable.comparatorProperty());
+
+    // Set the sorted (and filtered) data to the TableView
+    empSalesTable.setItems(sortedData);
+}
+
+private void updateTableView() {
+    // Wrap the filtered data in a SortedList
+    SortedList<sales> sortedData = new SortedList<>(filteredData);
+
+    // Bind the SortedList comparator to the TableView comparator
+    sortedData.comparatorProperty().bind(empSalesTable.comparatorProperty());
+
+    // Set the sorted (and filtered) data to the TableView
+    empSalesTable.setItems(sortedData);
+}
+
+
+
+    private boolean filterBySalesId(sales sale, String filter) {
+        return filter == null || filter.isEmpty() || sale.getSalesId().toLowerCase().contains(filter.toLowerCase());
+    }
+
+    private boolean filterByDateAndTime(sales sale, LocalDate filter) {
+        return filter == null || sale.getDateAndTime().toLocalDate().equals(filter);
+    }
+
+    private boolean filterByCarPlate(sales sale, String filter) {
+        return filter == null || filter.isEmpty() || sale.getCarPlate().toLowerCase().contains(filter.toLowerCase());
+    }
+
+    private boolean filterByCustomerId(sales sale, String filter) {
+        return filter == null || filter.isEmpty() || sale.getCustomerId().toLowerCase().contains(filter.toLowerCase());
+    }
+@FXML
+private void resetButtonPushed(ActionEvent event) {
+    // Clear the filter fields
+    salesIdFilterField.clear();
+    dateAndTimeDatePicker.setValue(null);
+    carPlateFilterField.clear();
+    customerIdFilterField.clear();
+
+    // Clear the existing filters
+    filteredData.setPredicate(null);
+
+    // Apply the filter based on the selected employee's ID
+    if (selectedEmployeeId != null && !selectedEmployeeId.isEmpty()) {
+        filteredData.setPredicate(sale -> sale.getEmployeeId().equals(selectedEmployeeId));
+    }
+
+    // Update the TableView
+    updateTableView();
+}
+
+
+  public void loadCSVData() {
+    // Clear existing data to avoid duplication
+    dataList.clear();
+
+    String salesCsvFilePath = "C:\\Users\\HP\\Documents\\WIIX1002GROUPRAGA\\VIEWINFO\\src\\sales.csv";
+    String vehicleCsvFilePath = "C:\\Users\\HP\\Documents\\WIIX1002GROUPRAGA\\VIEWINFO\\src\\vehicle.csv";
+
+    try (CSVReader salesCsvReader = new CSVReader(new FileReader(salesCsvFilePath));
+         CSVReader vehicleCsvReader = new CSVReader(new FileReader(vehicleCsvFilePath))) {
+
+        List<String[]> salesAllData = salesCsvReader.readAll();
+        List<String[]> vehicleAllData = vehicleCsvReader.readAll();
+
+        // Assume the first row contains column headers
+        String[] salesHeaders = salesAllData.get(0);
+        String[] vehicleHeaders = vehicleAllData.get(0);
+
+        for (int i = 1; i < salesAllData.size(); i++) {
+            String[] salesRow = salesAllData.get(i);
+
+            // Find the corresponding vehicle data based on carPlate
+            List<String[]> matchedVehicles = vehicleAllData.stream()
+                    .filter(vehicleRow -> vehicleRow[0].equals(salesRow[2]))
+                    .collect(Collectors.toList());
+
+            // Assuming there is only one matching vehicle for each sale
+            if (!matchedVehicles.isEmpty()) {
+                String[] vehicleRow = matchedVehicles.get(0);
+
                 sales salesData = new sales();
+                salesData.setSalesId(salesRow[0]);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                salesData.setDateAndTime(LocalDateTime.parse(salesRow[1], formatter));
 
-                // Assuming the order of columns is customerId, customerName, phoneNumber, postCode
-                salesData.setSalesId(row[0]);
-                salesData.setDateAndTime(row[1]);
-                salesData.setCarPlate(row[2]);
-                salesData.setCustomerId(row[3]);
-                salesData.setEmployeeId(row[4]);
+                salesData.setCarPlate(salesRow[2]);
+                salesData.setCustomerId(salesRow[3]);
+                salesData.setEmployeeId(salesRow[4]);
+                salesData.setPrice(vehicleRow[2]); // Add other attributes as needed
+
                 // Add the populated data to the ObservableList
-                data.add(salesData);
+                dataList.add(salesData);
             }
+        }
 
-            // Set the data to the TableView
-            empSalesTable.setItems(data);
-        } catch (IOException | CsvException e) {
-            e.printStackTrace();
-            // Handle exceptions (e.g., file not found, CSV parsing errors)
-        } 
-    
-    }}
+        // Set the data to the TableView
+        // Filter data based on the selected employee's ID
+        filteredData.setPredicate(customer -> customer.getEmployeeId().equals(selectedEmployeeId));
+
+        // Set the filtered data to the TableView
+        updateTableView();
+
+    } catch (IOException | CsvException e) {
+        e.printStackTrace();
+    }
+}
+
+
+}
+
+

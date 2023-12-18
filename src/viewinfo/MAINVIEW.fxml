@@ -8,7 +8,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewinfo.MAINVIEWController">
    <children>
-      <HBox alignment="CENTER" layoutX="134.0" layoutY="250.0" prefHeight="100.0" prefWidth="534.0" spacing="200.0">
+      <HBox alignment="CENTER" layoutX="133.0" layoutY="250.0" prefHeight="100.0" prefWidth="534.0" spacing="100.0">
          <children>
             <Button fx:id="managementButton" mnemonicParsing="false" onAction="#managementButtonPushed" text="Management">
                <font>
@@ -22,7 +22,7 @@
             </Button>
          </children>
       </HBox>
-      <Label layoutX="278.0" layoutY="183.0" text="Choose Your Level">
+      <Label layoutX="278.0" layoutY="205.0" text="Choose Your Level">
          <font>
             <Font size="30.0" />
          </font>

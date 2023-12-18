@@ -9,10 +9,14 @@ import com.opencsv.exceptions.CsvException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,9 +26,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 /**
@@ -50,7 +57,26 @@ public class SALESController implements Initializable {
 
     @FXML
     private TableColumn<sales, String> employeeId;
-    
+     @FXML
+    private TextField filterField;
+
+    @FXML
+    private TextField minPriceField;
+        @FXML
+    private TextField maxPriceField;
+
+    @FXML
+    private Button searchButton;
+
+    private final ObservableList<sales> dataList = FXCollections.observableArrayList();
+    private String selectedCP;
+
+    public void setCarPlate(String carPlate) {
+        this.selectedCP = carPlate;
+        // Load data when the employee ID is set
+    }
+
+ 
     
 public void salesBackButtonPushed(ActionEvent event) throws IOException
     {
@@ -63,6 +89,79 @@ public void salesBackButtonPushed(ActionEvent event) throws IOException
         window.setScene(mainViewScene);
         window.show();
     }
+public void userClickedOnTable(MouseEvent event) throws IOException {
+    // Get the selected item from the table
+    sales selectedCP = salesTableView.getSelectionModel().getSelectedItem();
+
+    // Check if a sale is selected
+    if (selectedCP != null) {
+        // Get the selected sale's car plate
+        String selectedCarPlate = selectedCP.getCarPlate();
+
+        // Pass the selected sale's car plate to VEHICLEVIEWController
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("VEHICLEVIEW.fxml"));
+        Parent tableViewParent = loader.load();
+        Scene tableViewScene = new Scene(tableViewParent);
+
+        VEHICLEVIEWController controller = loader.getController();
+
+        if (controller != null) {
+            // Use Platform.runLater to ensure UI-related tasks are executed on the JavaFX Application Thread
+            Platform.runLater(() -> {
+                controller.setCarPlate(selectedCarPlate);
+
+                // This line gets the Stage information
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+                window.setScene(tableViewScene);
+                window.show();
+            });
+        }
+    }
+}
+
+
+public void searchButtonPushed(ActionEvent event) {
+    String searchString = filterField.getText().toLowerCase();
+
+    try {
+        // Parse minPrice and handle the case where it's empty
+        double minPrice;
+        if (minPriceField.getText().isEmpty()) {
+            minPrice = 0.0;  // Set a default value or handle it differently
+        } else {
+            minPrice = Double.parseDouble(minPriceField.getText());
+        }
+
+        // Parse maxPrice and handle the case where it's empty
+        double maxPrice;
+        if (maxPriceField.getText().isEmpty()) {
+            maxPrice = Double.MAX_VALUE;  // Set a very high maximum value or handle it differently
+        } else {
+            maxPrice = Double.parseDouble(maxPriceField.getText());
+        }
+
+        // Filter data based on search criteria
+        ObservableList<sales> filteredData = dataList.filtered(sale ->
+                (sale.getSalesId().toLowerCase().contains(searchString) ||
+                 sale.getCarPlate().toLowerCase().contains(searchString) ||
+                 sale.getCustomerId().toLowerCase().contains(searchString) ||
+                 sale.getEmployeeId().toLowerCase().contains(searchString)) &&
+                 Double.parseDouble(sale.getPrice()) >= minPrice &&
+                 Double.parseDouble(sale.getPrice()) <= maxPrice &&
+                 sale.getDateAndTime().toString().toLowerCase().contains(searchString)  // Convert LocalDateTime to String
+        );
+
+        // Set the filtered data to the TableView
+        salesTableView.setItems(filteredData);
+    } catch (NumberFormatException e) {
+        // Handle the case where minPrice or maxPrice is not a valid double
+        System.err.println("Invalid price format");
+        // You may display an error message to the user
+    }
+}
+
     /**
      * Initializes the controller class.
      */
@@ -80,42 +179,57 @@ public void salesBackButtonPushed(ActionEvent event) throws IOException
             Logger.getLogger(SALESController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }    
-     private void loadCSVData() throws CsvException {
-        // Specify your CSV file path
-        String csvFilePath = "C:\\Users\\HP\\Documents\\WIIX1002GROUPRAGA\\VIEWINFO\\src\\sales.csv";
+    private void loadCSVData() throws CsvException {
+    // Specify your CSV file path
+    String salesCsvFilePath = "C:\\Users\\HP\\Documents\\WIIX1002GROUPRAGA\\VIEWINFO\\src\\sales.csv";
+    String vehicleCsvFilePath = "C:\\Users\\HP\\Documents\\WIIX1002GROUPRAGA\\VIEWINFO\\src\\vehicle.csv";
 
-        try (CSVReader csvReader = new CSVReader(new FileReader(csvFilePath))) {
-            // Read all records at once
-            List<String[]> allData = csvReader.readAll();
+    try (CSVReader salesCsvReader = new CSVReader(new FileReader(salesCsvFilePath));
+         CSVReader vehicleCsvReader = new CSVReader(new FileReader(vehicleCsvFilePath))) {
 
-            // Assume the first row contains column headers
-            String[] headers = allData.get(0);
+        List<String[]> salesAllData = salesCsvReader.readAll();
+        List<String[]> vehicleAllData = vehicleCsvReader.readAll();
 
-            // Create ObservableList for TableView
-            ObservableList<sales> data = FXCollections.observableArrayList();
+        // Assume the first row contains column headers
+        String[] salesHeaders = salesAllData.get(0);
+        String[] vehicleHeaders = vehicleAllData.get(0);
 
-            // Start from index 1 to skip headers
-            for (int i = 1; i < allData.size(); i++) {
-                String[] row = allData.get(i);
+        for (int i = 1; i < salesAllData.size(); i++) {
+            String[] salesRow = salesAllData.get(i);
 
-                // Create an instance of Customer and populate its properties
+            // Find the corresponding vehicle data based on carPlate
+            List<String[]> matchedVehicles = vehicleAllData.stream()
+                    .filter(vehicleRow -> vehicleRow[0].equals(salesRow[2])) // Assuming carPlate is the first column in vehicle.csv
+                    .collect(Collectors.toList());
+
+            // Assuming there is only one matching vehicle for each sale
+            if (!matchedVehicles.isEmpty()) {
+                String[] vehicleRow = matchedVehicles.get(0);
+
                 sales salesData = new sales();
+                salesData.setSalesId(salesRow[0]);
 
-                // Assuming the order of columns is customerId, customerName, phoneNumber, postCode
-                salesData.setSalesId(row[0]);
-                salesData.setDateAndTime(row[1]);
-                salesData.setCarPlate(row[2]);
-                salesData.setCustomerId(row[3]);
-                salesData.setEmployeeId(row[4]);
+                // Convert the string representation of date and time to LocalDateTime
+                LocalDateTime dateTime = LocalDateTime.parse(salesRow[1], DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"));
+                salesData.setDateAndTime(dateTime);
+
+                salesData.setCarPlate(salesRow[2]);
+                salesData.setCustomerId(salesRow[3]);
+                salesData.setEmployeeId(salesRow[4]);
+                salesData.setPrice(vehicleRow[2]); // Add other attributes as needed
+
                 // Add the populated data to the ObservableList
-                data.add(salesData);
+                dataList.add(salesData);
             }
-
-            // Set the data to the TableView
-            salesTableView.setItems(data);
-        } catch (IOException | CsvException e) {
-            e.printStackTrace();
-            // Handle exceptions (e.g., file not found, CSV parsing errors)
         }
+
+        // Set the data to the TableView
+        salesTableView.setItems(dataList);
+
+    } catch (IOException | CsvException e) {
+        e.printStackTrace();
+        // Handle exceptions (e.g., file not found, CSV parsing errors)
     }
+}
+
 }

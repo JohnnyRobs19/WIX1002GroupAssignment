@@ -1,21 +1,34 @@
 package viewinfo;
 
+import java.time.LocalDateTime;
+
 public class sales {
     private String salesId;
-    private String dateAndTime;
+    private LocalDateTime dateAndTime;
     private String carPlate;
     private String customerId;
     private String employeeId;
+    private String price;
 
     // Default constructor (if needed)
     public sales() {
         // Default constructor implementation, if needed
     }
-public boolean isEmployeeSale(String selectedEmployeeId) {
-    return this.employeeId.equals(selectedEmployeeId);
-}
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public boolean isEmployeeSale(String selectedEmployeeId) {
+        return this.employeeId.equals(selectedEmployeeId);
+    }
+
     // Constructor with five arguments
-    public sales(String salesId, String dateAndTime, String carPlate, String customerId, String employeeId) {
+    public sales(String salesId, LocalDateTime dateAndTime, String carPlate, String customerId, String employeeId) {
         this.salesId = salesId;
         this.dateAndTime = dateAndTime;
         this.carPlate = carPlate;
@@ -32,11 +45,11 @@ public boolean isEmployeeSale(String selectedEmployeeId) {
         this.salesId = salesId;
     }
 
-    public String getDateAndTime() {
+    public LocalDateTime getDateAndTime() {
         return dateAndTime;
     }
 
-    public void setDateAndTime(String dateAndTime) {
+    public void setDateAndTime(LocalDateTime dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
 
@@ -70,10 +83,11 @@ public boolean isEmployeeSale(String selectedEmployeeId) {
     public String toString() {
         return "Sales{" +
                 "salesId='" + salesId + '\'' +
-                ", dateAndTime='" + dateAndTime + '\'' +
+                ", dateAndTime=" + dateAndTime +
                 ", carPlate='" + carPlate + '\'' +
                 ", customerId='" + customerId + '\'' +
                 ", employeeId='" + employeeId + '\'' +
                 '}';
     }
 }
+
