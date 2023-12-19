@@ -27,6 +27,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -57,16 +58,26 @@ public class SALESController implements Initializable {
 
     @FXML
     private TableColumn<sales, String> employeeId;
-     @FXML
-    private TextField filterField;
+       @FXML
+    private TextField salesIdFilterField;
 
     @FXML
-    private TextField minPriceField;
-        @FXML
+    private DatePicker dateAndTimePicker;
+
+    @FXML
+    private TextField carPlateFilterField;
+
+    @FXML
+    private TextField customerIdFilterField;
+
+    @FXML
+    private TextField employeeIdFilterField;
+
+    @FXML
     private TextField maxPriceField;
 
     @FXML
-    private Button searchButton;
+    private TextField minPriceField;
 
     private final ObservableList<sales> dataList = FXCollections.observableArrayList();
     private String selectedCP;
@@ -122,35 +133,29 @@ public void userClickedOnTable(MouseEvent event) throws IOException {
 }
 
 
-public void searchButtonPushed(ActionEvent event) {
-    String searchString = filterField.getText().toLowerCase();
+@FXML
+private void searchButtonPushed(ActionEvent event) {
+    String salesIdSearch = salesIdFilterField.getText().trim().toLowerCase();
+    String carPlateSearch = carPlateFilterField.getText().toLowerCase();
+    String customerIdSearch = customerIdFilterField.getText().toLowerCase();
+    String employeeIdSearch = employeeIdFilterField.getText().toLowerCase();
 
     try {
         // Parse minPrice and handle the case where it's empty
-        double minPrice;
-        if (minPriceField.getText().isEmpty()) {
-            minPrice = 0.0;  // Set a default value or handle it differently
-        } else {
-            minPrice = Double.parseDouble(minPriceField.getText());
-        }
+        double minPrice = minPriceField.getText().isEmpty() ? 0.0 : Double.parseDouble(minPriceField.getText());
 
         // Parse maxPrice and handle the case where it's empty
-        double maxPrice;
-        if (maxPriceField.getText().isEmpty()) {
-            maxPrice = Double.MAX_VALUE;  // Set a very high maximum value or handle it differently
-        } else {
-            maxPrice = Double.parseDouble(maxPriceField.getText());
-        }
+        double maxPrice = maxPriceField.getText().isEmpty() ? Double.MAX_VALUE : Double.parseDouble(maxPriceField.getText());
 
         // Filter data based on search criteria
         ObservableList<sales> filteredData = dataList.filtered(sale ->
-                (sale.getSalesId().toLowerCase().contains(searchString) ||
-                 sale.getCarPlate().toLowerCase().contains(searchString) ||
-                 sale.getCustomerId().toLowerCase().contains(searchString) ||
-                 sale.getEmployeeId().toLowerCase().contains(searchString)) &&
-                 Double.parseDouble(sale.getPrice()) >= minPrice &&
-                 Double.parseDouble(sale.getPrice()) <= maxPrice &&
-                 sale.getDateAndTime().toString().toLowerCase().contains(searchString)  // Convert LocalDateTime to String
+                (salesIdSearch.isEmpty() || sale.getSalesId().toLowerCase().equals(salesIdSearch)) &&
+                        (carPlateSearch.isEmpty() || sale.getCarPlate().toLowerCase().contains(carPlateSearch)) &&
+                        (customerIdSearch.isEmpty() || sale.getCustomerId().toLowerCase().contains(customerIdSearch)) &&
+                        (employeeIdSearch.isEmpty() || sale.getEmployeeId().toLowerCase().contains(employeeIdSearch)) &&
+                        Double.parseDouble(sale.getPrice()) >= minPrice &&
+                        Double.parseDouble(sale.getPrice()) <= maxPrice &&
+                        (dateAndTimePicker.getValue() == null || sale.getDateAndTime().toLocalDate().isEqual(dateAndTimePicker.getValue()))
         );
 
         // Set the filtered data to the TableView
@@ -161,6 +166,36 @@ public void searchButtonPushed(ActionEvent event) {
         // You may display an error message to the user
     }
 }
+
+
+
+
+@FXML
+private void resetButtonPushed(ActionEvent event) {
+    try {
+        // Clear the text fields
+        salesIdFilterField.clear();
+        carPlateFilterField.clear();
+        customerIdFilterField.clear();
+        employeeIdFilterField.clear();
+        minPriceField.clear();
+        maxPriceField.clear();
+
+        // Clear the DatePicker
+        dateAndTimePicker.setValue(null);
+
+        // Reload the original data
+        loadCSVData();
+
+        // Optionally, you can clear the selection in the TableView
+        salesTableView.getSelectionModel().clearSelection();
+    } catch (CsvException ex) {
+        Logger.getLogger(SALESController.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+
+
+
 
     /**
      * Initializes the controller class.
@@ -180,6 +215,9 @@ public void searchButtonPushed(ActionEvent event) {
         }
     }    
     private void loadCSVData() throws CsvException {
+    // Clear existing data
+    dataList.clear();
+
     // Specify your CSV file path
     String salesCsvFilePath = "C:\\Users\\HP\\Documents\\WIIX1002GROUPRAGA\\VIEWINFO\\src\\sales.csv";
     String vehicleCsvFilePath = "C:\\Users\\HP\\Documents\\WIIX1002GROUPRAGA\\VIEWINFO\\src\\vehicle.csv";

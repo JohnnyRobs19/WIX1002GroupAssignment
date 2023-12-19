@@ -1,37 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewinfo.VEHICLESController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewinfo.VEHICLESController">
    <children>
-      <HBox layoutX="14.0" layoutY="14.0" prefHeight="376.0" prefWidth="566.0">
+      <HBox layoutX="14.0" layoutY="14.0" prefHeight="65.0" prefWidth="224.0">
          <children>
-            <Label text="VEHICLES">
+            <Label prefHeight="59.0" prefWidth="200.0" text=" VEHICLES">
                <font>
-                  <Font size="50.0" />
+                  <Font size="41.0" />
                </font>
             </Label>
          </children>
       </HBox>
-      <Button layoutX="735.0" layoutY="555.0" mnemonicParsing="false" onAction="#vehiclesBackButtonPushed" text="Back" />
-      <HBox layoutX="26.0" layoutY="106.0" prefHeight="422.0" prefWidth="750.0">
+      <HBox layoutX="699.0" layoutY="520.0" prefHeight="42.0" prefWidth="87.0" />
+      <TableView fx:id="vehicleTableView" layoutX="26.0" layoutY="139.0" prefHeight="353.0" prefWidth="955.0">
+        <columns>
+          <TableColumn fx:id="carPlate" prefWidth="107.0" text="CAR PLATE" />
+          <TableColumn fx:id="carModel" prefWidth="314.0" text="CAR MODEL" />
+            <TableColumn fx:id="acquiredPrice" prefWidth="227.0" text="ACQUIRED PRICE" />
+           <TableColumn fx:id="carStatus" prefWidth="137.0" text="CAR STATUS">
+    <cellValueFactory>
+        <PropertyValueFactory property="carStatus" />
+    </cellValueFactory>
+</TableColumn>
+
+            <TableColumn fx:id="salesPrice" prefWidth="169.0" text="SALES PRICE" />
+        </columns>
+      </TableView>
+      <Button layoutX="906.0" layoutY="524.0" mnemonicParsing="false" onAction="#vehiclesBackButtonPushed" text="Back" />
+      <HBox layoutX="15.0" layoutY="86.0" prefHeight="59.0" prefWidth="975.0" spacing="10.0">
          <children>
-            <TableView fx:id="vehicleTableView" prefHeight="422.0" prefWidth="754.0">
-              <columns>
-                <TableColumn fx:id="carPlate" prefWidth="139.0" text="CAR PLATE" />
-                <TableColumn fx:id="carModel" minWidth="0.0" prefWidth="220.0" text="CAR MODEL" />
-                  <TableColumn fx:id="acquiredPrice" prefWidth="144.0" text="ACQUIRED PRICE" />
-                  <TableColumn fx:id="carStatus" prefWidth="121.0" text="CAR STATUS" />
-                  <TableColumn fx:id="salesPrice" prefWidth="125.0" text="SALES PRICE" />
-              </columns>
-            </TableView>
+            <Label prefHeight="26.0" prefWidth="66.0" text="PLATE:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="carPlateFilterField" prefHeight="31.0" prefWidth="71.0" />
+            <Label prefHeight="26.0" prefWidth="80.0" text="MODEL:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="carModelFilterField" prefHeight="31.0" prefWidth="103.0" />
+            <Label prefHeight="26.0" prefWidth="138.0" text="A.PRICE(MAX):">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="acquiredPriceMaxFilterField" prefHeight="31.0" prefWidth="99.0" />
+            <Label prefHeight="26.0" prefWidth="75.0" text="STATUS">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <ChoiceBox fx:id="statusFilterField" prefHeight="31.0" prefWidth="54.0" />
+            <Label prefHeight="26.0" prefWidth="128.0" text="S.PRICE(MAX):">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="salesPriceMaxFilterField" prefHeight="31.0" prefWidth="87.0" />
+            <Button mnemonicParsing="false" onAction="#searchButtonPushed" prefHeight="31.0" prefWidth="85.0" text="SEARCH" />
          </children>
       </HBox>
+      <Button layoutX="915.0" layoutY="48.0" mnemonicParsing="false" onAction="#resetButtonPushed" prefHeight="31.0" prefWidth="75.0" text="RESET" />
+      <Label layoutX="332.0" layoutY="50.0" text="A.PRICE(MIN)">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="acquiredPriceMinFilterField" layoutX="465.0" layoutY="48.0" prefHeight="31.0" prefWidth="99.0" />
+      <Label layoutX="699.0" layoutY="52.0" text="S.PRICE(MIN):">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="salesPriceMinFilterField" layoutX="823.0" layoutY="48.0" prefHeight="31.0" prefWidth="80.0" />
    </children>
 </AnchorPane>

@@ -9,7 +9,6 @@ import com.opencsv.exceptions.CsvException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import static java.util.Collections.list;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -25,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -49,36 +49,48 @@ public class CUSTOMERController implements Initializable {
     @FXML
     private TableColumn<customer, String> postCode;
 
-     
-public void customerBackButtonPushed(ActionEvent event) throws IOException
-    {
+    @FXML
+    private TextField customerIdFilterField;
+
+    @FXML
+    private TextField customerNameFilterField;
+
+    @FXML
+    private TextField phoneNumberFilterField;
+
+    @FXML
+    private TextField postCodeFilterField;
+
+    // Original data loaded from CSV
+    private ObservableList<customer> originalData;
+
+    public void customerBackButtonPushed(ActionEvent event) throws IOException {
         Parent mainViewParent = FXMLLoader.load(getClass().getResource("MANAGEMENTFXML.fxml"));
         Scene mainViewScene = new Scene(mainViewParent);
-        
-        //This line gets the Stage information
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        
+
+        // This line gets the Stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
         window.setScene(mainViewScene);
         window.show();
     }
-    /**
-     * Initializes the controller class.
-     */
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-      customerId.setCellValueFactory(new PropertyValueFactory<customer,String>("customerId"));
-       customerName.setCellValueFactory(new PropertyValueFactory<customer,String>("customerName"));
-        phoneNumber.setCellValueFactory(new PropertyValueFactory<customer,String>("phoneNumber"));
-        postCode.setCellValueFactory(new PropertyValueFactory<customer,String>("postCode"));
-       
+        customerId.setCellValueFactory(new PropertyValueFactory<customer, String>("customerId"));
+        customerName.setCellValueFactory(new PropertyValueFactory<customer, String>("customerName"));
+        phoneNumber.setCellValueFactory(new PropertyValueFactory<customer, String>("phoneNumber"));
+        postCode.setCellValueFactory(new PropertyValueFactory<customer, String>("postCode"));
+
         try {
             loadCSVData();
         } catch (CsvException ex) {
             Logger.getLogger(CUSTOMERController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-    }    
+
+        // Save the original data loaded from CSV
+        originalData = FXCollections.observableArrayList(customerTableView.getItems());
+    }
 
     private void loadCSVData() throws CsvException {
         // Specify your CSV file path
@@ -119,8 +131,35 @@ public void customerBackButtonPushed(ActionEvent event) throws IOException
         }
     }
 
-    // ...
+    @FXML
+    private void searchButtonPushed(ActionEvent event) {
+        // Get the filter values from text fields
+        String filterCustomerId = customerIdFilterField.getText().trim().toLowerCase();
+        String filterCustomerName = customerNameFilterField.getText().trim().toLowerCase();
+        String filterPhoneNumber = phoneNumberFilterField.getText().trim().toLowerCase();
+        String filterPostCode = postCodeFilterField.getText().trim().toLowerCase();
 
+        // Create a filtered list based on the filter values
+        ObservableList<customer> filteredData = originalData.filtered(
+                customer -> customer.getCustomerId().toLowerCase().contains(filterCustomerId)
+                        && customer.getCustomerName().toLowerCase().contains(filterCustomerName)
+                        && customer.getPhoneNumber().toLowerCase().contains(filterPhoneNumber)
+                        && customer.getPostCode().toLowerCase().contains(filterPostCode)
+        );
+
+        // Set the filtered data to the TableView
+        customerTableView.setItems(filteredData);
+    }
+
+    @FXML
+    private void resetButtonPushed(ActionEvent event) {
+        // Reset the TableView to its original state
+        customerTableView.setItems(originalData);
+
+        // Clear the filter text fields
+        customerIdFilterField.clear();
+        customerNameFilterField.clear();
+        phoneNumberFilterField.clear();
+        postCodeFilterField.clear();
+    }
 }
-
-

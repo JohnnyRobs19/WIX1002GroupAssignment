@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -9,9 +10,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewinfo.SALESController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1133.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewinfo.SALESController">
    <children>
-      <HBox layoutX="14.0" layoutY="14.0" prefHeight="375.0" prefWidth="580.0">
+      <HBox layoutX="14.0" layoutY="14.0" prefHeight="328.0" prefWidth="535.0">
          <children>
             <Label text="SALES">
                <font>
@@ -20,46 +21,72 @@
             </Label>
          </children>
       </HBox>
-      <HBox layoutX="693.0" layoutY="516.0" prefHeight="70.0" prefWidth="93.0">
+      <HBox layoutX="693.0" layoutY="516.0" prefHeight="70.0" prefWidth="93.0" />
+      <HBox layoutX="7.0" layoutY="133.0" prefHeight="353.0" prefWidth="1109.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#salesBackButtonPushed" prefHeight="42.0" prefWidth="82.0" text="Back" />
-         </children>
-      </HBox>
-      <HBox layoutX="7.0" layoutY="133.0" prefHeight="353.0" prefWidth="788.0">
-         <children>
-            <TableView fx:id="salesTableView" onMouseClicked="#userClickedOnTable" prefHeight="354.0" prefWidth="779.0">
+            <TableView fx:id="salesTableView" onMouseClicked="#userClickedOnTable" prefHeight="353.0" prefWidth="1120.0">
               <columns>
-                <TableColumn fx:id="salesId" prefWidth="126.0" text="SALES ID" />
-                <TableColumn fx:id="dateAndTime" prefWidth="211.0" text="DATE AND TIME" />
-                  <TableColumn fx:id="carPlate" prefWidth="132.0" text="CAR PLATE" />
-                  <TableColumn fx:id="customerId" prefWidth="143.0" text="CUSTOMER ID" />
-                  <TableColumn fx:id="employeeId" prefWidth="166.0" text="EMPLOYEE ID" />
+                <TableColumn fx:id="salesId" prefWidth="151.0" text="SALES ID" />
+                <TableColumn fx:id="dateAndTime" prefWidth="366.0" text="DATE AND TIME" />
+                  <TableColumn fx:id="carPlate" prefWidth="202.0" text="CAR PLATE" />
+                  <TableColumn fx:id="customerId" prefWidth="209.0" text="CUSTOMER ID" />
+                  <TableColumn fx:id="employeeId" prefWidth="180.0" text="EMPLOYEE ID" />
               </columns>
             </TableView>
          </children>
       </HBox>
-      <TextField fx:id="filterField" layoutX="100.0" layoutY="85.0" prefHeight="31.0" prefWidth="139.0" />
-      <TextField fx:id="minPriceField" layoutX="346.0" layoutY="85.0" prefHeight="31.0" prefWidth="100.0" />
-      <Button fx:id="searchButton" layoutX="693.0" layoutY="85.0" mnemonicParsing="false" onAction="#searchButtonPushed" text="SEARCH">
+      <HBox layoutX="7.0" layoutY="68.0" prefHeight="70.0" prefWidth="1109.0" spacing="10.0">
+         <children>
+            <Label prefHeight="31.0" prefWidth="107.0" text="SALES ID:">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="salesIdFilterField" prefHeight="31.0" prefWidth="112.0" />
+            <Label prefHeight="31.0" prefWidth="89.0" text="D.A.T:">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="dateAndTimePicker" prefHeight="31.0" prefWidth="158.0" />
+            <Label prefHeight="31.0" prefWidth="121.0" text="CAR PLATE:">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="carPlateFilterField" prefHeight="31.0" prefWidth="139.0" />
+            <Label prefHeight="31.0" prefWidth="93.0" text="CUST ID:">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="customerIdFilterField" prefHeight="31.0" prefWidth="139.0" />
+            <Label prefHeight="31.0" prefWidth="93.0" text="EMP ID:">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="employeeIdFilterField" prefHeight="31.0" prefWidth="84.0" />
+            <Button mnemonicParsing="false" onAction="#searchButtonPushed" prefHeight="31.0" prefWidth="100.0" text="SEARCH">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+      <Button layoutX="1029.0" layoutY="28.0" mnemonicParsing="false" onAction="#resetButtonPushed" prefHeight="31.0" prefWidth="78.0" text="RESET" />
+      <TextField fx:id="maxPriceField" layoutX="734.0" layoutY="15.0" prefHeight="31.0" prefWidth="116.0" />
+      <Label layoutX="634.0" layoutY="15.0" prefHeight="31.0" prefWidth="100.0" text="MAX PRICE">
          <font>
-            <Font name="System Bold" size="15.0" />
+            <Font name="System Bold" size="17.0" />
          </font>
-      </Button>
-      <Label layoutX="20.0" layoutY="83.0" prefHeight="31.0" prefWidth="93.0" text="SEARCH:">
+      </Label>
+      <TextField fx:id="minPriceField" layoutX="516.0" layoutY="12.0" prefHeight="31.0" prefWidth="100.0" />
+      <Label layoutX="421.0" layoutY="13.0" prefHeight="31.0" prefWidth="93.0" text="MIN PRICE">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Label layoutX="257.0" layoutY="82.0" prefHeight="31.0" prefWidth="93.0" text="MIN PRICE">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Label layoutX="464.0" layoutY="81.0" prefHeight="31.0" prefWidth="100.0" text="MAX PRICE">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <TextField fx:id="maxPriceField" layoutX="553.0" layoutY="83.0" prefHeight="31.0" prefWidth="100.0" />
+      <Button layoutX="986.0" layoutY="526.0" mnemonicParsing="false" onAction="#salesBackButtonPushed" prefHeight="42.0" prefWidth="82.0" text="Back" />
    </children>
 </AnchorPane>
