@@ -8,13 +8,22 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class FXMLController implements Initializable {
-
+    
+    private Stage stage;
+    private Scene scene;
+    private Parent root; 
+    
     @FXML
     private TextField employeeName;
     @FXML
@@ -25,6 +34,8 @@ public class FXMLController implements Initializable {
     private Label wrongSignUp;
     @FXML
     private Label correctSignUp;
+    @FXML
+    private Label MessageEmployeeId;
 
     // File path for the CSV file
     private static final String CSV_FILE_PATH = "src//employee.csv";
@@ -45,6 +56,30 @@ public class FXMLController implements Initializable {
     public static void main(String[] args) {
         // Instantiating the CSVWriter Class could be done here
     }
+    
+//    public void switchToSignUp(ActionEvent event) throws IOException{
+//        root = FXMLLoader.load(getClass().getResource("FXML.fxml"));
+//        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//    }
+    
+    public void switchToLogin(ActionEvent event){
+     try{ // Load Login_FXML.fxml instead of FXML.fxml
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Login_FXML.fxml"));
+        root = loader.load();
+        //wrongSignUp.setText("Are you working.");
+
+        // Rest of your code for switching scene
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    } catch (IOException e){
+        e.printStackTrace();
+    }
+    }
 
     // Event handler for the Sign Up button
     @FXML
@@ -62,7 +97,8 @@ public class FXMLController implements Initializable {
             } else if (!enteredPassword.equals(enteredPassword2)) {
                 wrongSignUp.setText("Your credentials are not consistent");
                 clearFormFields();
-            } else {
+            }
+            else {
                 // Read the last employeeId from the existing CSV file
                 int lastEmployeeId = getLastEmployeeId();
 
@@ -75,6 +111,7 @@ public class FXMLController implements Initializable {
                 // Clear the form fields
                 clearFormFields();
                 correctSignUp.setText("You have successfully signed up.");
+                MessageEmployeeId.setText("Your employee Id is E"+String.format("%04d", (newEmployeeId)));
                 wrongSignUp.setText("");
             }
         } catch (IOException e) {
