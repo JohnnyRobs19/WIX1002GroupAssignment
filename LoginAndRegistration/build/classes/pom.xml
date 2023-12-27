@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this template
+-->
+
+<!--OpenCSV provides API’s to read and write data from/into a CSV file-->
+
+<!--CSVWriter class of OpenCSV provides methods named writeAll() and writeNext() to write data to a .csv file-->
+
+<!--1. writeNext() 
+2. writeAll() 
+-->
+
+<!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
+<!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
+<dependency>
+    <groupId>com.opencsv</groupId>
+    <artifactId>opencsv</artifactId>
+    <version>5.9</version>
+</dependency>
+
+    
+<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.14.0</version>
+</dependency>
+
+
