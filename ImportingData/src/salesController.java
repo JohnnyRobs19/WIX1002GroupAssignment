@@ -21,8 +21,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
-public class salesController implements Initializable {
-
+public class salesController implements Initializable{
+    
     @FXML
     private AnchorPane baseAnchorPane;
 
@@ -36,22 +36,22 @@ public class salesController implements Initializable {
     private Button backButton;
 
     @FXML
-    private TableView<sales> tableView;
+    private TableView<Sales> tableView;
 
     @FXML
-    private TableColumn<sales, String> salesID;
+    private TableColumn<Sales, String> salesID;
 
     @FXML
-    private TableColumn<sales, String> date;
+    private TableColumn<Sales, String> date;
 
     @FXML
-    private TableColumn<sales, String> carPlate;
+    private TableColumn<Sales, String> carPlate;
 
     @FXML
-    private TableColumn<sales, String> customerId;
+    private TableColumn<Sales, String> customerId;
 
     @FXML
-    private TableColumn<sales, String> employeeID;
+    private TableColumn<Sales, String> employeeID;
 
     private Stage stage;
     private Scene scene;
@@ -66,7 +66,7 @@ public class salesController implements Initializable {
         customerId.setCellValueFactory(new PropertyValueFactory<>("custId"));
         employeeID.setCellValueFactory(new PropertyValueFactory<>("employeeId"));
     }
-
+    
     public void chooseFileButtonPressed(ActionEvent event) throws CsvException {
         FileChooser fc = new FileChooser();
         fc.setTitle("Select CSV File");
@@ -174,7 +174,7 @@ public class salesController implements Initializable {
 
         return null; // Return null if there was an issue reading the file or if it's empty
     }
-
+    
     private void loadCSVData() throws CsvException {
 
         // Specify your CSV file path
@@ -193,14 +193,14 @@ public class salesController implements Initializable {
         String[] headers = allData.get(0);
 
         // Create ObservableList for TableView
-        ObservableList<sales> data = FXCollections.observableArrayList();
+        ObservableList<Sales> data = FXCollections.observableArrayList();
 
         // Start from index 1 to skip headers
         for (int i = 1; i < allData.size(); i++) {
             String[] row = allData.get(i);
 
             // Create an instance of Customer and populate its properties
-            sales salesData = new sales();
+            Sales salesData = new Sales();
 
             // Assuming the order of columns is customerId, customerName, phoneNumber, postCode
             salesData.setSalesId(row[0]);
@@ -215,5 +215,5 @@ public class salesController implements Initializable {
 
         // Set the data to the TableView
         tableView.setItems(data);
-    }
+    } 
 }

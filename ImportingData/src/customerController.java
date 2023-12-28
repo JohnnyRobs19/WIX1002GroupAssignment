@@ -1,4 +1,3 @@
-
 import com.opencsv.exceptions.CsvException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,8 +21,8 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
-
 public class customerController implements Initializable {
+    
     @FXML
     private AnchorPane baseAnchorPane;
 
@@ -37,19 +36,19 @@ public class customerController implements Initializable {
     private Button backButton;
 
     @FXML
-    private TableView<customer> tableView;
+    private TableView<Customer> tableView;
 
     @FXML
-    private TableColumn<customer, String> custId;
+    private TableColumn<Customer, String> custId;
 
     @FXML
-    private TableColumn<customer, String> custName;
+    private TableColumn<Customer, String> custName;
 
     @FXML
-    private TableColumn<customer, String> custHP;
+    private TableColumn<Customer, String> custHP;
 
     @FXML
-    private TableColumn<customer, String> custPCode;
+    private TableColumn<Customer, String> custPCode;
 
     private File selectedFile;
 
@@ -64,9 +63,7 @@ public class customerController implements Initializable {
         custHP.setCellValueFactory(new PropertyValueFactory<>("customerHP"));
         custPCode.setCellValueFactory(new PropertyValueFactory<>("customerPostcode"));
     }
-
-
-
+    
     public void chooseFileButtonPressed(ActionEvent event) throws CsvException {
         FileChooser fc = new FileChooser();
         fc.setTitle("Select CSV File");
@@ -76,7 +73,7 @@ public class customerController implements Initializable {
             loadCSVData();
         }
     }
-
+    
     public void importFileButtonPressed(ActionEvent event) throws IOException {
 
         if (selectedFile == null) {
@@ -114,11 +111,9 @@ public class customerController implements Initializable {
             // File does not exist, proceed with file copy
             Files.copy(originalFile.toPath(), customerBackup.toPath());
             showSuccessMessage("File successfully imported");
-        }
-        
-
+        }   
     }
-
+    
     public void backButtonPressed(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("importSelector.fxml"));
         root = loader.load();
@@ -127,7 +122,7 @@ public class customerController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    
     private void showSuccessMessage(String message) {
         Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
         successAlert.setTitle("Success");
@@ -137,7 +132,7 @@ public class customerController implements Initializable {
         // Show the alert
         successAlert.showAndWait();
     }
-
+    
     private void showErrorMessage(String message) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setTitle("Error");
@@ -147,8 +142,7 @@ public class customerController implements Initializable {
         // Show the alert
         errorAlert.showAndWait();
     }
-
-
+    
     public static List<String[]> readCSV(String filePath) {
         List<String[]> data = new ArrayList<>();
 
@@ -164,7 +158,7 @@ public class customerController implements Initializable {
 
         return data;
     }
-
+    
     public static String[] readFirstRowCSV(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -177,7 +171,7 @@ public class customerController implements Initializable {
 
         return null; // Return null if there was an issue reading the file or if it's empty
     }
-
+    
     private void loadCSVData() throws CsvException {
 
         // Specify your CSV file path
@@ -197,14 +191,14 @@ public class customerController implements Initializable {
         String[] headers = allData.get(0);
 
         // Create ObservableList for TableView
-        ObservableList<customer> data = FXCollections.observableArrayList();
+        ObservableList<Customer> data = FXCollections.observableArrayList();
 
         // Start from index 1 to skip headers
         for (int i = 1; i < allData.size(); i++) {
             String[] row = allData.get(i);
 
             // Create an instance of Customer and populate its properties
-            customer customerData = new customer();
+            Customer customerData = new Customer();
 
             // Assuming the order of columns is customerId, customerName, phoneNumber, postCode
             customerData.setCustomerID(row[0]);
@@ -219,9 +213,9 @@ public class customerController implements Initializable {
         // Set the data to the TableView
         tableView.setItems(data);
     }
-
-
-
-
-
+    
+    
+    
+    
+    
 }

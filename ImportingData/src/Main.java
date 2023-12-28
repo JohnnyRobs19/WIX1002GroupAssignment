@@ -1,4 +1,3 @@
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,9 +6,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class Main extends Application{
 
-    @Override
+     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("importSelector.fxml"));
         Parent root = loader.load();
@@ -19,8 +18,9 @@ public class Main extends Application {
         stage.setTitle("CSV Data Importer");
         stage.show();
     }
-
+    
     public static void main(String[] args) {
         launch(args);
     }
+    
 }

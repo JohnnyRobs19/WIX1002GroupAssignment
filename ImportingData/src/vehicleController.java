@@ -21,9 +21,11 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 import com.opencsv.*;
+import javafx.scene.control.TableView;
 
-public class vehicleController implements Initializable{
 
+public class vehicleController implements Initializable {
+    
     @FXML
     private AnchorPane baseAnchorPane;
 
@@ -37,22 +39,22 @@ public class vehicleController implements Initializable{
     private Button backButton;
 
     @FXML
-    private TableView<vehicle> tableView;
+    private TableView<Vehicle> tableView;
 
     @FXML
-    private TableColumn<vehicle, String> PlateNumber;
+    private TableColumn<Vehicle, String> PlateNumber;
 
     @FXML
-    private TableColumn<vehicle, String> CarModel;
+    private TableColumn<Vehicle, String> CarModel;
 
     @FXML
-    private TableColumn<vehicle, String> AcquirePrice;
+    private TableColumn<Vehicle, String> AcquirePrice;
 
     @FXML
-    private TableColumn<vehicle, String> VehicleStatus;
+    private TableColumn<Vehicle, String> VehicleStatus;
 
     @FXML
-    private TableColumn<vehicle, String> SalesPrice;
+    private TableColumn<Vehicle, String> SalesPrice;
 
     private Stage stage;
     private Scene scene;
@@ -159,7 +161,7 @@ public class vehicleController implements Initializable{
 
         return null; // Return null if there was an issue reading the file or if it's empty
     }
-
+    
     private void loadCSVData() throws CsvException {
         // Specify your CSV file path
         String csvFilePath = selectedFile.getPath();
@@ -178,14 +180,14 @@ public class vehicleController implements Initializable{
             String[] headers = allData.get(0);
 
             // Create ObservableList for TableView
-            ObservableList<vehicle> data = FXCollections.observableArrayList();
+            ObservableList<Vehicle> data = FXCollections.observableArrayList();
 
             // Start from index 1 to skip headers
             for (int i = 1; i < allData.size(); i++) {
                 String[] row = allData.get(i);
 
                 // Create an instance of Customer and populate its properties
-                vehicle vehiclesData = new vehicle();
+                Vehicle vehiclesData = new Vehicle();
 
                 // Assuming the order of columns is customerId, customerName, phoneNumber, postCode
                 vehiclesData.setCarPlate(row[0]);
@@ -204,5 +206,5 @@ public class vehicleController implements Initializable{
             // Handle exceptions (e.g., file not found, CSV parsing errors)
         }
     }
-
+    
 }

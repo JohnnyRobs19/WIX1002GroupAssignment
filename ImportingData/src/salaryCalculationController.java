@@ -15,9 +15,8 @@ import java.util.List;
 import com.opencsv.*;
 import javafx.stage.Stage;
 
-
 public class salaryCalculationController {
-
+    
     @FXML
     private TextField employeeIDTextField;
 
@@ -63,7 +62,7 @@ public class salaryCalculationController {
             totalSalary.setText(Double.toString(calculateTotalSalary(employeeID)));
         }
         catch (Exception e){
-            showErrorMessage("Invalid Employee ID");
+            e.printStackTrace();
         }
 
     }
@@ -116,8 +115,8 @@ public class salaryCalculationController {
     }
 
     private double calculateTotalCommisions(String employeeID) {
-        List<sales> salesInfo = readSalesCSV(salesFile);
-        List<vehicle> vehicleInfo = readVehicleCSV(vehicleFile);
+        List<Sales> salesInfo = readSalesCSV(salesFile);
+        List<Vehicle> vehicleInfo = readVehicleCSV(vehicleFile);
 
         double commision = calculateCommission(employeeID, salesInfo, vehicleInfo);
         return commision;
@@ -145,15 +144,15 @@ public class salaryCalculationController {
         double totalSalary = baseSalary + commisions + baseAllowance;
         return totalSalary;
     }
-
-    private static double calculateCommission(String employeeId, List<sales> sales, List<vehicle> vehicles) {
+    
+    private static double calculateCommission(String employeeId, List<Sales> sales, List<Vehicle> vehicles) {
         double commissionRate = 0.01;
         double totalCommission = 0;
 
-        for (sales sale : sales) {
+        for (Sales sale : sales) {
             if (employeeId.equals(sale.getEmployeeId())) {
                 String carPlate = sale.getCarPlate();
-                vehicle soldVehicle = getVehicleByCarPlate(carPlate, vehicles);
+                Vehicle soldVehicle = getVehicleByCarPlate(carPlate, vehicles);
 
                 // Check if the car is found and its status is sold (carStatus = 0)
                 if (soldVehicle != null && soldVehicle.getCarStatus().equals("0")) {
@@ -167,19 +166,19 @@ public class salaryCalculationController {
 
         return totalCommission;
     }
-
-    private static vehicle getVehicleByCarPlate(String carPlate, List<vehicle> vehicles) {
+    
+    private static Vehicle getVehicleByCarPlate(String carPlate, List<Vehicle> vehicles) {
         // Find the vehicle with the given car plate
-        for (vehicle vehicle : vehicles) {
+        for (Vehicle vehicle : vehicles) {
             if (carPlate.equals(vehicle.getCarPlate())) {
                 return vehicle;
             }
         }
         return null; // Car not found
     }
-
-    public static List<employee> readEmployeeCSV(String filePath) {
-        List<employee> employees = new ArrayList<>();
+    
+    public static List<Employee> readEmployeeCSV(String filePath) {
+        List<Employee> employees = new ArrayList<>();
 
         try (CSVReader csvReader = new CSVReader(new FileReader(filePath))) {
             // Read the CSV file line by line
@@ -190,7 +189,7 @@ public class salaryCalculationController {
                 String[] record = records.get(i);
 
                 // Create an Employee object from the CSV data
-                employee employeeData = new employee();
+                Employee employeeData = new Employee();
 
                 employeeData.setEmployeeName(record[0]);
                 employeeData.setEmployeeID(record[1]);
@@ -206,9 +205,9 @@ public class salaryCalculationController {
 
         return employees;
     }
-
-    public static List<vehicle> readVehicleCSV(String filePath) {
-        List<vehicle> vehicles = new ArrayList<>();
+    
+    public static List<Vehicle> readVehicleCSV(String filePath) {
+        List<Vehicle> vehicles = new ArrayList<>();
 
         try (CSVReader csvReader = new CSVReader(new FileReader(filePath))) {
             // Read the CSV file line by line
@@ -219,7 +218,7 @@ public class salaryCalculationController {
                 String[] record = records.get(i);
 
                 // Create an Employee object from the CSV data
-                vehicle vehiclesData = new vehicle();
+                Vehicle vehiclesData = new Vehicle();
                 vehiclesData.setCarPlate(record[0]);
                 vehiclesData.setCarModel(record[1]);
                 vehiclesData.setAcquirePrice(record[2]);
@@ -235,9 +234,9 @@ public class salaryCalculationController {
 
         return vehicles;
     }
-
-    public static List<sales> readSalesCSV(String filePath) {
-        List<sales> sales = new ArrayList<>();
+    
+    public static List<Sales> readSalesCSV(String filePath) {
+        List<Sales> sales = new ArrayList<>();
 
         try (CSVReader csvReader = new CSVReader(new FileReader(filePath))) {
             // Read the CSV file line by line
@@ -248,7 +247,7 @@ public class salaryCalculationController {
                 String[] record = records.get(i);
 
                 // Create an Employee object from the CSV data
-                sales salesData = new sales();
+                Sales salesData = new Sales();
                 salesData.setSalesId(record[0]);
                 salesData.setDateTime(record[1]);
                 salesData.setCarPlate(record[2]);
@@ -264,7 +263,7 @@ public class salaryCalculationController {
 
         return sales;
     }
-
+    
     public static int getEmployeeStatus(String employeeId, String filePath) {
         try (CSVReader csvReader = new CSVReader(new FileReader(filePath))) {
             List<String[]> records = csvReader.readAll();
@@ -281,9 +280,5 @@ public class salaryCalculationController {
         // If the employeeId is not found, return a default value (you can change it as needed)
         return -1;
     }
-
+    
 }
-
-
-
-

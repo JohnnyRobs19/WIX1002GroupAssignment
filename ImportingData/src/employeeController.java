@@ -22,7 +22,7 @@ import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 public class employeeController implements Initializable {
-
+    
     @FXML
     private AnchorPane baseAnchorPane;
 
@@ -36,19 +36,19 @@ public class employeeController implements Initializable {
     private Button backButton;
 
     @FXML
-    private TableView<employee> tableView;
+    private TableView<Employee> tableView;
 
     @FXML
-    private TableColumn<employee, String> empId;
+    private TableColumn<Employee, String> empId;
 
     @FXML
-    private TableColumn<employee, String> empName;
+    private TableColumn<Employee, String> empName;
 
     @FXML
-    private TableColumn<employee, String> empStatus;
+    private TableColumn<Employee, String> empStatus;
 
     @FXML
-    private TableColumn<employee, String> empPass;
+    private TableColumn<Employee, String> empPass;
 
     private File selectedFile;
 
@@ -63,7 +63,7 @@ public class employeeController implements Initializable {
         empStatus.setCellValueFactory(new PropertyValueFactory<>("employeeStatus"));
         empPass.setCellValueFactory(new PropertyValueFactory<>("employeePassword"));
     }
-
+    
     public void chooseFileButtonPressed(ActionEvent event) throws CsvException {
         FileChooser fc = new FileChooser();
         fc.setTitle("Select CSV File");
@@ -73,7 +73,7 @@ public class employeeController implements Initializable {
             loadCSVData();
         }
     }
-
+    
     public void importFileButtonPressed(ActionEvent event) throws IOException {
 
         if (selectedFile == null) {
@@ -114,7 +114,7 @@ public class employeeController implements Initializable {
         }
 
     }
-
+    
     public void backButtonPressed(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("importSelector.fxml"));
         root = loader.load();
@@ -123,7 +123,7 @@ public class employeeController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    
     private void showSuccessMessage(String message) {
         Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
         successAlert.setTitle("Success");
@@ -133,7 +133,7 @@ public class employeeController implements Initializable {
         // Show the alert
         successAlert.showAndWait();
     }
-
+    
     private void showErrorMessage(String message) {
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
         errorAlert.setTitle("Error");
@@ -143,8 +143,7 @@ public class employeeController implements Initializable {
         // Show the alert
         errorAlert.showAndWait();
     }
-
-
+    
     public static List<String[]> readCSV(String filePath) {
         List<String[]> data = new ArrayList<>();
 
@@ -160,7 +159,7 @@ public class employeeController implements Initializable {
 
         return data;
     }
-
+    
     public static String[] readFirstRowCSV(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -173,7 +172,7 @@ public class employeeController implements Initializable {
 
         return null; // Return null if there was an issue reading the file or if it's empty
     }
-
+    
     private void loadCSVData() throws CsvException {
 
         // Specify your CSV file path
@@ -193,14 +192,14 @@ public class employeeController implements Initializable {
         String[] headers = allData.get(0);
 
         // Create ObservableList for TableView
-        ObservableList<employee> data = FXCollections.observableArrayList();
+        ObservableList<Employee> data = FXCollections.observableArrayList();
 
         // Start from index 1 to skip headers
         for (int i = 1; i < allData.size(); i++) {
             String[] row = allData.get(i);
 
             // Create an instance of Customer and populate its properties
-            employee employeeData = new employee();
+            Employee employeeData = new Employee();
 
             // Assuming the order of columns is customerId, customerName, phoneNumber, postCode
             employeeData.setEmployeeID(row[0]);
@@ -215,4 +214,7 @@ public class employeeController implements Initializable {
         // Set the data to the TableView
         tableView.setItems(data);
     }
+    
+    
+    
 }

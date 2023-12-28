@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="salaryCalculationController">
+   <children>
+      <Text layoutX="37.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Salary Calculation">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <TextField fx:id="employeeIDTextField" layoutX="37.0" layoutY="99.0" promptText="(employee ID)" />
+      <Text layoutX="37.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Employee ID:" />
+      <Text layoutX="37.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Rank:" />
+      <Text layoutX="37.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Base Salary:" />
+      <Text layoutX="37.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Commisions:" />
+      <Text layoutX="251.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Base Allowance:" />
+      <Text layoutX="251.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Salary:" />
+      <Label fx:id="employeeRank" layoutX="37.0" layoutY="167.0" />
+      <Label fx:id="baseSalary" layoutX="37.0" layoutY="209.0" />
+      <Label fx:id="totalCommisions" layoutX="37.0" layoutY="250.0" />
+      <Label fx:id="baseAllowance" layoutX="251.0" layoutY="167.0" />
+      <Label fx:id="totalSalary" layoutX="251.0" layoutY="209.0" />
+      <Button fx:id="calculateButton" layoutX="215.0" layoutY="100.0" mnemonicParsing="false" onAction="#calculateButtonPressed" text="Calculate" />
+      <Button fx:id="backButton" layoutX="26.0" layoutY="331.0" mnemonicParsing="false" onAction="#backButtonPressed" text="Back" />
+   </children>
+</AnchorPane>
