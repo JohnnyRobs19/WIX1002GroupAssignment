@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewinfo2.VEHICLEVIEWEMPController">
+   <children>
+      <TableView fx:id="vehicleDetailedView" layoutX="39.0" layoutY="213.0" prefHeight="87.0" prefWidth="724.0">
+        <columns>
+          <TableColumn fx:id="carPlate" prefWidth="146.0" text="CAR PLATE" />
+          <TableColumn fx:id="carModel" prefWidth="172.0" text="CAR MODEL" />
+            <TableColumn fx:id="acquiredPrice" prefWidth="232.0" text="ACQUIRED PRICE" />
+            <TableColumn fx:id="carStatus" minWidth="0.0" prefWidth="0.0" text="Column X" />
+            <TableColumn fx:id="salesPrice" prefWidth="173.0" text="SALES PRICE" />
+        </columns>
+      </TableView>
+      <Label layoutX="237.0" layoutY="41.0" text="VEHICLE DETAILS">
+         <font>
+            <Font name="System Bold" size="40.0" />
+         </font>
+      </Label>
+      <Button fx:id="backButton" layoutX="667.0" layoutY="522.0" mnemonicParsing="false" onAction="#backButtonPushed" text="BACK" />
+   </children>
+</AnchorPane>

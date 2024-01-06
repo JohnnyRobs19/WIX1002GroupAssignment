@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewinfo2.SALESFXMLController">
+   <children>
+      <VBox layoutX="15.0" layoutY="21.0" prefHeight="356.0" prefWidth="569.0">
+         <children>
+            <Label prefHeight="55.0" prefWidth="558.0" text="GOOD MORNING YO ">
+               <font>
+                  <Font size="38.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <HBox layoutX="605.0" layoutY="388.0" prefHeight="55.0" prefWidth="95.0">
+         <children>
+            <Button fx:id="salesBack" mnemonicParsing="false" onAction="#salesBackButtonPushed" text="Back" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutY="119.0" prefHeight="118.0" prefWidth="700.0" spacing="50.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#salesEmployeePushed" text="SALES">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#salesVehiclesPushed" text="VEHICLES">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#salesCustomerPushed" text="CUSTOMER">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

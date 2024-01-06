@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="importData2.importSelectorController">
+   <children>
+      <Text layoutX="27.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What type of data would you like to import?">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Button fx:id="goToCustomerImport" layoutX="42.0" layoutY="136.0" mnemonicParsing="false" onAction="#goToCustomerImportPressed" prefHeight="57.0" prefWidth="100.0" text="Customer Data" />
+      <Button fx:id="goToSalesImport" layoutX="181.0" layoutY="136.0" mnemonicParsing="false" onAction="#goToSalesImportPressed" prefHeight="57.0" prefWidth="100.0" text="Sales Data" />
+      <Button fx:id="goToEmployeeImport" layoutX="326.0" layoutY="136.0" mnemonicParsing="false" onAction="#goToEmployeeImportPressed" prefHeight="57.0" prefWidth="100.0" text="Employee Data" />
+      <Button fx:id="goToVehicleImport" layoutX="463.0" layoutY="136.0" mnemonicParsing="false" onAction="#goToVehicleImportPressed" prefHeight="57.0" prefWidth="86.0" text="Vehicle Data" />
+      <Button fx:id="backToMain" layoutX="42.0" layoutY="300.0" mnemonicParsing="false" onAction="#backToMainButtonPushed" prefHeight="35.0" prefWidth="89.0" text="Back to Main" />
+   </children>
+</AnchorPane>

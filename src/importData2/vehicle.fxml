@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="431.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="importData2.vehicleController">
+
+    <children>
+        <Text layoutX="26.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Import Vehicle Data">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Text>
+        <TableView fx:id="tableView" layoutX="26.0" layoutY="57.0" prefHeight="274.0" prefWidth="578.0">
+            <columns>
+                <TableColumn fx:id="PlateNumber" prefWidth="92.0" text="Plate Number" />
+                <TableColumn fx:id="CarModel" prefWidth="160.0" text="Car Model" />
+                <TableColumn fx:id="AcquirePrice" prefWidth="131.0" text="Acquire Price" />
+                <TableColumn fx:id="VehicleStatus" prefWidth="93.0" text="Vehicle Status" />
+                <TableColumn fx:id="SalesPrice" prefWidth="101.0" text="Sales Price" />
+            </columns>
+        </TableView>
+        <Button fx:id="chooseFileButton" layoutX="169.0" layoutY="363.0" mnemonicParsing="false" onAction="#chooseFileButtonPressed" text="Choose File" />
+        <Button fx:id="importButton" layoutX="350.0" layoutY="363.0" mnemonicParsing="false" onAction="#importFileButtonPressed" text="Import File" />
+        <Button fx:id="backButton" layoutX="26.0" layoutY="363.0" mnemonicParsing="false" onAction="#backButtonPressed" text="Back" />
+    </children>
+
+</AnchorPane>

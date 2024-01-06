@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewinfo2.EMPCUSTOMERController">
+   <children>
+      <HBox layoutX="14.0" layoutY="14.0" prefHeight="40.0" prefWidth="335.0">
+         <children>
+            <Label text="YOUR CUSTOMER">
+               <font>
+                  <Font size="39.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox layoutX="688.0" layoutY="530.0" prefHeight="56.0" prefWidth="98.0" />
+      <TableView fx:id="empCustomerTableView" layoutX="37.0" layoutY="124.0" prefHeight="366.0" prefWidth="939.0">
+        <columns>
+          <TableColumn fx:id="customerId" prefWidth="188.0" text="CUSTOMER ID" />
+          <TableColumn fx:id="customerName" minWidth="8.0" prefWidth="392.0" text="CUSTOMER NAME" />
+            <TableColumn fx:id="phoneNumber" prefWidth="211.0" text="PHONE NUMBER" />
+            <TableColumn fx:id="postCode" prefWidth="147.0" text="POSTCODE" />
+        </columns>
+      </TableView>
+      <HBox layoutX="29.0" layoutY="71.0" prefHeight="39.0" prefWidth="939.0" spacing="10.0">
+         <children>
+            <Label prefHeight="26.0" prefWidth="33.0" text="ID:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="customerIdFilterField" prefHeight="31.0" prefWidth="97.0" />
+            <Label prefHeight="26.0" prefWidth="64.0" text="NAME:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="customerNameFilterField" prefHeight="31.0" prefWidth="97.0" />
+            <Label prefHeight="26.0" prefWidth="150.0" text="PHONE NUMBER:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="phoneNumberFilterField" prefHeight="31.0" prefWidth="97.0" />
+            <Label prefHeight="26.0" prefWidth="100.0" text="POSTCODE:">
+               <font>
+                  <Font name="System Bold" size="17.0" />
+               </font>
+            </Label>
+            <TextField fx:id="postCodeFilterField" prefHeight="31.0" prefWidth="97.0" />
+            <Button mnemonicParsing="false" onAction="#searchButtonPushed" prefHeight="31.0" prefWidth="89.0" text="SEARCH" />
+         </children>
+      </HBox>
+      <Button layoutX="932.0" layoutY="531.0" mnemonicParsing="false" onAction="#empCustomerBackButtonPushed" text="Back" />
+      <Button layoutX="850.0" layoutY="27.0" mnemonicParsing="false" onAction="#resetButtonPushed" prefHeight="31.0" prefWidth="89.0" text="RESET" />
+   </children>
+</AnchorPane>
