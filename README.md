@@ -13,6 +13,6 @@ Student Names:
 
 Tutorial Group: Occurence 3
 
-Lecturer: Dr. Unaizah Hanum binti Obaidellah
+Lecturer: Dr. Unaizah Hanum binti Obaidellah/Dr. Saw Shier Nee
 
 Thank you very much 
