@@ -88,10 +88,12 @@ public class FXMLController implements Initializable {
         String enteredEmployeeName = employeeName.getText();
         String enteredPassword = password.getText();
         String enteredPassword2 = password2.getText();
-
+        
         try {
+            if (enteredEmployeeName.trim().length()==0 || enteredPassword.trim().length()==0 || enteredPassword2.trim().length()==0){
+                wrongSignUp.setText("Your name/password is empty.");
             // Check if the entered employeeName already exists in the CSV file
-            if (isEmployeeNameDuplicate(enteredEmployeeName)) {
+            }else if (isEmployeeNameDuplicate(enteredEmployeeName)) {
                 wrongSignUp.setText("You have already signed up.");
                 clearFormFields();
             // If Password and Re-enter Password Field are not the same
@@ -105,15 +107,15 @@ public class FXMLController implements Initializable {
 
                 // Calculate the new employeeId
                 int newEmployeeId = lastEmployeeId + 1;
-
+                
                 // Append the new employee data to the CSV file
-                appendEmployeeData(newEmployeeId, enteredEmployeeName, enteredPassword);
-
-                // Clear the form fields
-                clearFormFields();
-                correctSignUp.setText("You have successfully signed up.");
-                MessageEmployeeId.setText("Your employee Id is E"+String.format("%04d", (newEmployeeId)));
-                wrongSignUp.setText("");
+                    appendEmployeeData(newEmployeeId, enteredEmployeeName, enteredPassword);
+                
+                
+                    // Clear the form fields
+                    clearFormFields();
+                    correctSignUp.setText("You have successfully signed up.");
+                    MessageEmployeeId.setText("Your employee Id is E"+String.format("%04d", (newEmployeeId)));
             }
         } catch (IOException e) {
             e.printStackTrace();
