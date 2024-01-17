@@ -92,6 +92,7 @@ public class FXMLController implements Initializable {
         try {
             if (enteredEmployeeName.trim().length()==0 || enteredPassword.trim().length()==0 || enteredPassword2.trim().length()==0){
                 wrongSignUp.setText("Your name/password is empty.");
+                clearFormFields();
             // Check if the entered employeeName already exists in the CSV file
             }else if (isEmployeeNameDuplicate(enteredEmployeeName)) {
                 wrongSignUp.setText("You have already signed up.");
@@ -114,6 +115,7 @@ public class FXMLController implements Initializable {
                 
                     // Clear the form fields
                     clearFormFields();
+                    wrongSignUp.setText("");
                     correctSignUp.setText("You have successfully signed up.");
                     MessageEmployeeId.setText("Your employee Id is E"+String.format("%04d", (newEmployeeId)));
             }
